@@ -1,0 +1,7 @@
+{
+  "name": "collablite",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm -r dev"
+  }
+}
