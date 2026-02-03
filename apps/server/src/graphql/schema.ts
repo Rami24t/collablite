@@ -1,5 +1,6 @@
 import { gql } from "apollo-server-express";
 
+// GraphQL type definitions for User, Project, and Task models and their queries and mutations
 export const typeDefs = gql`
   type User {
     id: ID!
