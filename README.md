@@ -341,6 +341,4 @@ cd apps/web && pnpm build
 <div align="center">
   <img src="https://img.shields.io/github/stars/Rami24t/collablite?style=social" alt="GitHub Stars">
   <img src="https://img.shields.io/github/forks/Rami24t/collablite?style=social" alt="GitHub Forks">
-  <img src="https://img.shields.io/github/issues/Rami24t/collablite" alt="GitHub Issues">
-  <img src="https://img.shields.io/github/license/Rami24t/collablite" alt="License">
 </div>
