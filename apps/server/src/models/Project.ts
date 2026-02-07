@@ -1,10 +1,11 @@
-import mongoose, { Schema, Document, Types } from "mongoose";
+import { Schema, Document, model, Types } from "mongoose";
+import { IUser } from "./User";
 
 export interface IProject extends Document {
   name: string;
   description?: string;
-  owner: Types.ObjectId;
-  members: Types.ObjectId[];
+  owner: Types.ObjectId | IUser;
+  members: (Types.ObjectId | IUser)[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -34,4 +35,4 @@ const ProjectSchema = new Schema<IProject>({
   timestamps: true
 });
 
-export const Project = mongoose.model<IProject>("Project", ProjectSchema);
+export const Project = model<IProject>("Project", ProjectSchema);

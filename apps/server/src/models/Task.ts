@@ -1,11 +1,13 @@
-import mongoose, { Schema, Document, Types } from "mongoose";
+import { Schema, Document, model, Types } from "mongoose";
+import { IUser } from "./User";
+import { IProject } from "./Project";
 
 export interface ITask extends Document {
   title: string;
   description?: string;
   completed: boolean;
-  project: Types.ObjectId;
-  assignee?: Types.ObjectId;
+  project: Types.ObjectId | IProject;
+  assignee?: Types.ObjectId | IUser;
   dueDate?: Date;
   createdAt: Date;
   updatedAt: Date;
@@ -47,4 +49,4 @@ const TaskSchema = new Schema<ITask>({
 TaskSchema.index({ project: 1, completed: 1 });
 TaskSchema.index({ assignee: 1 });
 
-export const Task = mongoose.model<ITask>("Task", TaskSchema);
+export const Task = model<ITask>("Task", TaskSchema);
