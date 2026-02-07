@@ -1,9 +1,0 @@
-packages:
-  - apps/*
-
-ignoredBuiltDependencies:
-  - '@apollo/protobufjs'
-
-onlyBuiltDependencies:
-  - bcrypt
-  - esbuild
