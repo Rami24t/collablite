@@ -26,6 +26,12 @@ const CREATE_USER = gql`
   }
 `;
 
+const DELETE_USER = gql`
+  mutation DeleteUser($id: ID!) {
+    deleteUser(id: $id)
+  }
+`;
+
 interface User {
   id: string;
   username: string;
@@ -47,12 +53,19 @@ export default function App() {
     password: "",
   });
 
+  // State for the specific user being currently deleted
+  const [deletingUserId, setDeletingUserId] = useState<string | null>(null);
+
   // Queries
   const { data, loading, error, refetch } = useQuery(GET_USERS);
 
   // Mutations
   const [createUser, { loading: creatingUser, error: createError }] =
     useMutation(CREATE_USER, {
+      refetchQueries: [{ query: GET_USERS }],
+    });
+  const [deleteUser, { loading: deletingUser, error: deleteError }] =
+    useMutation(DELETE_USER, {
       refetchQueries: [{ query: GET_USERS }],
     });
 
@@ -75,6 +88,30 @@ export default function App() {
       }
     } catch (err) {
       console.error("Error creating user:", err);
+    }
+  };
+
+  // Handle deleting a user
+  const handleDeleteUser = async (userId: string, username: string) => {
+    if (
+      !window.confirm(`Are you sure you want to delete user "${username}"?`)
+    ) {
+      return;
+    }
+    try {
+      setDeletingUserId(userId);
+      const result = await deleteUser({
+        variables: { id: userId },
+      });
+
+      if (result.data?.deleteUser === true) {
+        setSuccessMessage(`User "${username}" deleted successfully!`);
+        setTimeout(() => setSuccessMessage(""), 3000);
+      }
+    } catch (err) {
+      console.error("Error deleting user:", err);
+    } finally {
+      setDeletingUserId(null);
     }
   };
 
@@ -222,6 +259,13 @@ export default function App() {
             <p>{createError.message}</p>
           </div>
         )}
+
+        {deleteError && (
+          <div className="mutation-error">
+            <h3>Error deleting user:</h3>
+            <p>{deleteError.message}</p>
+          </div>
+        )}
       </div>
 
       {/* Users List Section */}
@@ -259,13 +303,36 @@ export default function App() {
                     </div>
                     <p className="user-email">{user.email}</p>
                     <small className="user-joined">
-                      Joined: {new Date(Number(user.createdAt)).toLocaleDateString('GER')}{" "}
+                      Joined:{" "}
+                      {new Date(Number(user.createdAt)).toLocaleDateString(
+                        "GER",
+                      )}{" "}
                       at{" "}
                       {new Date(Number(user.createdAt)).toLocaleTimeString([], {
                         hour: "2-digit",
                         minute: "2-digit",
                       })}
                     </small>
+
+                    <div className="user-actions">
+                      <button 
+                        className="delete-user-btn"
+                        onClick={() => handleDeleteUser(user.id, user.username)}
+                        disabled={deletingUser && deletingUserId === user.id}
+                      >
+                        {deletingUser && deletingUserId === user.id ? (
+                          <>
+                            <span className="spinner small"></span>
+                            Deleting...
+                          </>
+                        ) : (
+                          <>
+                            <span className="delete-icon">🗑️</span>
+                            Delete
+                          </>
+                        )}
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>

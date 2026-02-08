@@ -1,4 +1,4 @@
-/* App.css - Enhanced Version */
+/* App.css - Enhanced Version with Delete */
 
 .app {
   max-width: 1200px;
@@ -50,8 +50,7 @@
   background-color: #f44336;
 }
 
-.retry-btn,
-.refresh-btn {
+.retry-btn, .refresh-btn {
   margin-left: auto;
   padding: 5px 15px;
   background-color: #2196f3;
@@ -62,8 +61,7 @@
   font-size: 14px;
 }
 
-.retry-btn:hover,
-.refresh-btn:hover {
+.retry-btn:hover, .refresh-btn:hover {
   background-color: #1976d2;
 }
 
@@ -87,15 +85,8 @@
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* Create User Form */
@@ -103,7 +94,7 @@
   background-color: white;
   padding: 25px;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   margin-bottom: 30px;
 }
 
@@ -140,16 +131,14 @@
   margin-bottom: 25px;
 }
 
-.submit-btn,
-.clear-btn,
-.random-user-btn {
+.submit-btn, .clear-btn, .random-user-btn, .delete-user-btn {
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
-  transition: background-color 0.3s;
+  transition: all 0.3s;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -163,6 +152,7 @@
 
 .submit-btn:hover:not(:disabled) {
   background-color: #45a049;
+  transform: translateY(-1px);
 }
 
 .submit-btn:disabled {
@@ -178,6 +168,7 @@
 
 .clear-btn:hover {
   background-color: #e0e0e0;
+  transform: translateY(-1px);
 }
 
 .random-user-section {
@@ -201,6 +192,7 @@
 
 .random-user-btn:hover:not(:disabled) {
   background-color: #f57c00;
+  transform: translateY(-1px);
 }
 
 .random-user-btn:disabled {
@@ -208,20 +200,55 @@
   cursor: not-allowed;
 }
 
+/* User Actions - Delete Button */
+.user-actions {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.delete-user-btn {
+  background-color: #f44336;
+  color: white;
+  padding: 6px 15px;
+  font-size: 13px;
+}
+
+.delete-user-btn:hover:not(:disabled) {
+  background-color: #d32f2f;
+  transform: translateY(-1px);
+}
+
+.delete-user-btn:disabled {
+  background-color: #ffcdd2;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.delete-icon {
+  font-size: 12px;
+}
+
 /* Spinner for loading state */
 .spinner {
   width: 16px;
   height: 16px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: 2px solid rgba(255,255,255,0.3);
   border-radius: 50%;
   border-top-color: white;
   animation: spin 1s ease-in-out infinite;
 }
 
+.spinner.small {
+  width: 12px;
+  height: 12px;
+  border-width: 1.5px;
+}
+
 @keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+  to { transform: rotate(360deg); }
 }
 
 /* Mutation Error Display */
@@ -248,7 +275,7 @@
   background-color: white;
   padding: 25px;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .users-header {
@@ -283,11 +310,12 @@
   border-radius: 8px;
   background-color: #fafafa;
   transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
 }
 
 .user-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .user-header {
@@ -316,16 +344,17 @@
   margin: 0 0 10px 0;
   color: #666;
   font-size: 14px;
+  word-break: break-all;
 }
 
 .user-joined {
   color: #999;
   font-size: 12px;
+  display: block;
 }
 
 /* Error States */
-.error-message,
-.error {
+.error-message, .error {
   padding: 20px;
   background-color: #ffebee;
   border: 1px solid #f44336;
@@ -355,43 +384,117 @@
   font-size: 16px;
 }
 
+/* Confirmation Dialog Styling */
+.confirmation-dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.confirmation-content {
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+.confirmation-content h3 {
+  margin-top: 0;
+  color: #333;
+}
+
+.confirmation-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  justify-content: flex-end;
+}
+
+.confirm-btn {
+  background-color: #f44336;
+  color: white;
+  padding: 8px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  background-color: #f5f5f5;
+  color: #333;
+  padding: 8px 20px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.confirm-btn:hover {
+  background-color: #d32f2f;
+}
+
+.cancel-btn:hover {
+  background-color: #e0e0e0;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .app {
     padding: 15px;
   }
-
+  
   .form-group {
     grid-template-columns: 1fr;
   }
-
+  
   .form-actions {
     flex-direction: column;
   }
-
+  
   .users-list {
     grid-template-columns: 1fr;
   }
-
+  
   .users-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
   }
-
+  
   .refresh-btn {
     align-self: flex-start;
+  }
+  
+  .user-actions {
+    justify-content: flex-start;
   }
 }
 
 @media (max-width: 480px) {
-
   .create-user-form,
   .users-container {
     padding: 15px;
   }
-
+  
   .user-card {
     padding: 15px;
+  }
+  
+  .user-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+  
+  .user-id {
+    align-self: flex-start;
   }
 }
