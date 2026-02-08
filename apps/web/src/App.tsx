@@ -3,7 +3,7 @@ import { gql, useQuery, useMutation } from "@apollo/client";
 import ServerHealth from "./components/ServerHealth";
 import "./App.css";
 
-// Define your GraphQL queries and mutations
+// Define GraphQL queries and mutations
 const GET_USERS = gql`
   query GetUsers {
     users {
@@ -259,9 +259,9 @@ export default function App() {
                     </div>
                     <p className="user-email">{user.email}</p>
                     <small className="user-joined">
-                      Joined: {new Date(+user.createdAt).toLocaleDateString()}{" "}
+                      Joined: {new Date(Number(user.createdAt)).toLocaleDateString('GER')}{" "}
                       at{" "}
-                      {new Date(+user.createdAt).toLocaleTimeString([], {
+                      {new Date(Number(user.createdAt)).toLocaleTimeString([], {
                         hour: "2-digit",
                         minute: "2-digit",
                       })}
