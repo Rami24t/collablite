@@ -28,9 +28,12 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 
 // HTTP link
 const httpLink = createHttpLink({
-  uri: VITE_API_URL || 'http://localhost:4044/graphql',
+  uri: import.meta.env.VITE_API_URL || 'https://collablite-backend.onrender.com/graphql',
   credentials: 'include',
-})
+  fetchOptions: {
+    timeout: 60000, // 60 second timeout for cold starts
+  },
+});
 
 // Cache configuration
 const cache = new InMemoryCache({
