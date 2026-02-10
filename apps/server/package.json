@@ -1,11 +1,17 @@
 {
-  "name": "server",
+  "name": "collablite-backend",
+  "author": {
+    "name": "Rami Al-Saadi",
+    "email": "alsaadi.rami24@gmail.com"
+  },
   "version": "1.0.0",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
   "scripts": {
     "dev": "nodemon src/index.ts",
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "render-build": "npm run build",
+    "test": "echo \"No tests specified\" && exit 0"
   },
   "dependencies": {
     "@apollo/server": "^4.9.0",
@@ -25,5 +31,8 @@
     "nodemon": "^3.0.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
+  },
+  "engines": {
+    "node": ">=20.6.0"
   }
 }
