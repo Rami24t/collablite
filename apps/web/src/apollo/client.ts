@@ -1,11 +1,6 @@
 import { ApolloClient, InMemoryCache, createHttpLink, from } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
 
-// Option A: Check both import.meta.env and process.env for Render compatibility
-const VITE_API_URL = import.meta.env.VITE_API_URL ||
-  (import.meta.env.PROD ? 'https://your-render-app.onrender.com/graphql' : 'http://localhost:4044/graphql')
-
-
 // Error handling link
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
@@ -28,7 +23,8 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 
 // HTTP link
 const httpLink = createHttpLink({
-  uri: import.meta.env.VITE_API_URL || 'https://collablite-backend.onrender.com/graphql',
+  uri: import.meta.env.VITE_API_URL ||
+  (import.meta.env.PROD ? 'https://collablite-backend.onrender.com/graphql' : 'http://localhost:4044/graphql'),
   credentials: 'include',
   fetchOptions: {
     timeout: 60000, // 60 second timeout for cold starts
