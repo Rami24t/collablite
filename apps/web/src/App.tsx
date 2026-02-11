@@ -32,11 +32,24 @@ const DELETE_USER = gql`
   }
 `;
 
+// TypeScript interfaces
 interface User {
   id: string;
   username: string;
   email: string;
   createdAt: string;
+}
+
+interface GetUsersData {
+  users: User[];
+}
+
+interface CreateUserData {
+  createUser: User;
+}
+
+interface DeleteUserData {
+  deleteUser: boolean;
 }
 
 export default function App() {
@@ -53,20 +66,32 @@ export default function App() {
     password: "",
   });
 
+  // State for form errors
+  const [formErrors, setFormErrors] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+
   // State for the specific user being currently deleted
   const [deletingUserId, setDeletingUserId] = useState<string | null>(null);
 
   // Queries
-  const { data, loading, error, refetch } = useQuery(GET_USERS);
+  const { data, loading, error, refetch } = useQuery<GetUsersData>(GET_USERS);
 
   // Mutations
   const [createUser, { loading: creatingUser, error: createError }] =
-    useMutation(CREATE_USER, {
+    useMutation<CreateUserData>(CREATE_USER, {
       refetchQueries: [{ query: GET_USERS }],
     });
+  
   const [deleteUser, { loading: deletingUser, error: deleteError }] =
-    useMutation(DELETE_USER, {
+    useMutation<DeleteUserData>(DELETE_USER, {
       refetchQueries: [{ query: GET_USERS }],
+      // Optimistic UI update
+      optimisticResponse: (variables) => ({
+        deleteUser: true,
+      }),
     });
 
   // Handle creating random test user
@@ -104,7 +129,7 @@ export default function App() {
         variables: { id: userId },
       });
 
-      if (result.data?.deleteUser === true) {
+      if (result.data?.deleteUser) {
         setSuccessMessage(`User "${username}" deleted successfully!`);
         setTimeout(() => setSuccessMessage(""), 3000);
       }
@@ -115,17 +140,54 @@ export default function App() {
     }
   };
 
+  // Validate form
+  const validateForm = () => {
+    const errors = { username: "", email: "", password: "" };
+    let isValid = true;
+
+    if (formData.username.trim().length < 3) {
+      errors.username = "Username must be at least 3 characters";
+      isValid = false;
+    }
+
+    if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
+      errors.email = "Please enter a valid email";
+      isValid = false;
+    }
+
+    if (formData.password.length < 6) {
+      errors.password = "Password must be at least 6 characters";
+      isValid = false;
+    }
+
+    setFormErrors(errors);
+    return isValid;
+  };
+
   // Handle form input changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
+    // Clear error when user starts typing
+    if (formErrors[name as keyof typeof formErrors]) {
+      setFormErrors({
+        ...formErrors,
+        [name]: "",
+      });
+    }
   };
 
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!validateForm()) {
+      return;
+    }
+    
     try {
       const result = await createUser({
         variables: formData,
@@ -137,6 +199,7 @@ export default function App() {
         );
         setTimeout(() => setSuccessMessage(""), 3000);
         setFormData({ username: "", email: "", password: "" });
+        setFormErrors({ username: "", email: "", password: "" });
       }
     } catch (err) {
       console.error("Error creating user:", err);
@@ -146,6 +209,14 @@ export default function App() {
   // Clear form
   const handleClearForm = () => {
     setFormData({ username: "", email: "", password: "" });
+    setFormErrors({ username: "", email: "", password: "" });
+  };
+
+  // Handle keyboard shortcuts
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+      handleSubmit(e as any);
+    }
   };
 
   if (!serverConnected) {
@@ -181,37 +252,69 @@ export default function App() {
       {/* Create User Form */}
       <div className="create-user-form">
         <h2>Create New User</h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} onKeyDown={handleKeyDown}>
           <div className="form-group">
-            <input
-              type="text"
-              name="username"
-              placeholder="Username"
-              value={formData.username}
-              onChange={handleInputChange}
-              required
-              minLength={3}
-              className="form-input"
-            />
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={formData.email}
-              onChange={handleInputChange}
-              required
-              className="form-input"
-            />
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleInputChange}
-              required
-              minLength={6}
-              className="form-input"
-            />
+            <div className="form-field">
+              <input
+                type="text"
+                name="username"
+                placeholder="Username"
+                value={formData.username}
+                onChange={handleInputChange}
+                required
+                minLength={3}
+                className={`form-input ${formErrors.username ? 'error' : ''}`}
+                aria-label="Username"
+                aria-invalid={!!formErrors.username}
+                aria-describedby={formErrors.username ? "username-error" : undefined}
+              />
+              {formErrors.username && (
+                <span className="error-message" id="username-error">
+                  {formErrors.username}
+                </span>
+              )}
+            </div>
+            
+            <div className="form-field">
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={handleInputChange}
+                required
+                className={`form-input ${formErrors.email ? 'error' : ''}`}
+                aria-label="Email"
+                aria-invalid={!!formErrors.email}
+                aria-describedby={formErrors.email ? "email-error" : undefined}
+              />
+              {formErrors.email && (
+                <span className="error-message" id="email-error">
+                  {formErrors.email}
+                </span>
+              )}
+            </div>
+            
+            <div className="form-field">
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleInputChange}
+                required
+                minLength={6}
+                className={`form-input ${formErrors.password ? 'error' : ''}`}
+                aria-label="Password"
+                aria-invalid={!!formErrors.password}
+                aria-describedby={formErrors.password ? "password-error" : undefined}
+              />
+              {formErrors.password && (
+                <span className="error-message" id="password-error">
+                  {formErrors.password}
+                </span>
+              )}
+            </div>
           </div>
 
           <div className="form-actions">
@@ -226,7 +329,7 @@ export default function App() {
                   Creating...
                 </>
               ) : (
-                "Create User"
+                "Create User (Ctrl+Enter)"
               )}
             </button>
 
@@ -303,12 +406,8 @@ export default function App() {
                     </div>
                     <p className="user-email">{user.email}</p>
                     <small className="user-joined">
-                      Joined:{" "}
-                      {new Date(Number(user.createdAt)).toLocaleDateString(
-                        "GER",
-                      )}{" "}
-                      at{" "}
-                      {new Date(Number(user.createdAt)).toLocaleTimeString([], {
+                      Joined: {new Date(user.createdAt).toLocaleDateString('GER')} at{" "}
+                      {new Date(user.createdAt).toLocaleTimeString(['GER'], {
                         hour: "2-digit",
                         minute: "2-digit",
                       })}
@@ -319,6 +418,7 @@ export default function App() {
                         className="delete-user-btn"
                         onClick={() => handleDeleteUser(user.id, user.username)}
                         disabled={deletingUser && deletingUserId === user.id}
+                        aria-label={`Delete user ${user.username}`}
                       >
                         {deletingUser && deletingUserId === user.id ? (
                           <>
@@ -327,7 +427,7 @@ export default function App() {
                           </>
                         ) : (
                           <>
-                            <span className="delete-icon">🗑️</span>
+                            <span className="delete-icon" aria-hidden="true">🗑️</span>
                             Delete
                           </>
                         )}
