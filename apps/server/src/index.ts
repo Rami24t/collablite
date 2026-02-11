@@ -58,8 +58,8 @@ async function startServer() {
   // Configure CORS for production
   const corsOptions = {
     origin: [
-      'http://localhost:5173',
-      'http://localhost:3000',
+      'https://collablite.onrender.com',
+      'https://collablite.onrender.com/',
       process.env.FRONTEND_URL || '',
     ].filter(Boolean),
     credentials: true,
