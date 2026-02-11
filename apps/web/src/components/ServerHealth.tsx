@@ -12,7 +12,7 @@ const ServerHealth: React.FC<ServerHealthProps> = ({ onConnectionChange }) => {
     try {
       setLoading(true);
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL || import.meta.env.PROD ? "https://collablite-backend.onrender.com/graphql" : "http://localhost:4044/graphql"}/health`,
+        `${import.meta.env.VITE_API_URL || (import.meta.env.PROD ? "https://collablite-backend.onrender.com/graphql" : "http://localhost:4044/graphql")}/../health`,
         {
           method: "GET",
           headers: {
