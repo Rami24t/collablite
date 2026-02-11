@@ -18,6 +18,8 @@ const ServerHealth: React.FC<ServerHealthProps> = ({ onConnectionChange }) => {
           headers: {
             "Content-Type": "application/json",
           },
+          mode: "cors",
+          credentials: "include",
         },
       );
 

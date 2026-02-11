@@ -17,6 +17,25 @@ const PORT = process.env.PORT || 4000;
 // Enable trust proxy for Render
 app.set('trust proxy', 1);
 
+// Configure CORS for ALL routes
+const corsOptions = {
+  origin: [
+    'http://localhost:5173', 
+    'http://localhost:3000',
+    'https://collablite.onrender.com',
+    process.env.FRONTEND_URL ? process.env.FRONTEND_URL.replace(/\/$/, '') : null
+  ].filter(Boolean),
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
+// Enable CORS for all routes
+app.use(cors(corsOptions));
+
+// Handle preflight requests
+app.options('*', cors(corsOptions));
+
 async function startServer() {
   console.log("🔗 Connecting to MongoDB Atlas...");
   
@@ -28,8 +47,8 @@ async function startServer() {
     }
     
     // Hide password in logs
-    // const hiddenUri = MONGODB_URI.replace(/:([^:]+)@/, ':****@');
-    // console.log(`Using MongoDB: ${hiddenUri}`);
+    const hiddenUri = MONGODB_URI.replace(/:([^:]+)@/, ':****@');
+    console.log(`Using MongoDB: ${hiddenUri}`);
     
     await mongoose.connect(MONGODB_URI, {
       serverSelectionTimeoutMS: 10000,
@@ -48,27 +67,16 @@ async function startServer() {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
-    introspection: true, // Keep introspection enabled for GraphQL playground
+    introspection: true,
     includeStacktraceInErrorResponses: process.env.NODE_ENV !== 'production',
   });
   
   // Start Apollo Server
   await server.start();
   
-  // Configure CORS for production
-  const corsOptions = {
-    origin: [
-      'https://collablite.onrender.com',
-      'https://collablite.onrender.com/',
-      process.env.FRONTEND_URL || '',
-    ].filter(Boolean),
-    credentials: true,
-  };
-  
   // Apply Apollo middleware to Express
   app.use(
     '/graphql',
-    cors<cors.CorsRequest>(corsOptions),
     express.json({ limit: '10mb' }),
     expressMiddleware(server, {
       context: async ({ req }) => ({
@@ -78,7 +86,7 @@ async function startServer() {
     })
   );
   
-  // Health check endpoint (important for Render)
+  // Health check endpoint
   app.get('/health', (req, res) => {
     res.status(200).json({ 
       status: 'ok', 
