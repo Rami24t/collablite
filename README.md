@@ -10,13 +10,8 @@
 
 ### My main purpose of this showcase project
 
-- get to know and practice TypeScript: 
-GraphQL, Apollo, Apollo server, Mutations, Queries, gql schemas (in this Fullstack MERN stack project)
-- create, consume, and deploy a fully funcitonal fullstack apollo GraphQL project.
-
-
 - ✅ To practice my TypeScript knowledge
-- ✅ To practice GraphQL, Apollo, Apollo server, Mutations, Queries, gql schemas (in this Fullstack MERN stack project)
+- ✅ To get to know and practice GraphQL, Apollo, Apollo server, Mutations, Queries, gql schemas (in this Fullstack MERN stack project)
 - ✅ to create, consume, and deploy a fully funcitonal fullstack apollo GraphQL project
 
 
