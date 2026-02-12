@@ -1,4 +1,4 @@
-# CollabLite: Real-Time Collaboration Platform
+# CollabLite
 
 [![React](https://img.shields.io/badge/React-18.x-blue)](https://reactjs.org/)
 [![Apollo GraphQL](https://img.shields.io/badge/Apollo%20GraphQL-4.x-purple)](https://www.apollographql.com/)
@@ -6,6 +6,53 @@
 [![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-green)](https://www.mongodb.com/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue)](https://www.typescriptlang.org/)
 [![PNPM](https://img.shields.io/badge/PNPM-workspaces-yellow)](https://pnpm.io/)
+
+
+### My main purpose of this showcase project
+
+- get to know and practice TypeScript: 
+GraphQL, Apollo, Apollo server, Mutations, Queries, gql schemas (in this Fullstack MERN stack project)
+- create, consume, and deploy a fully funcitonal fullstack apollo GraphQL project.
+
+
+- ✅ To practice my TypeScript knowledge
+- ✅ To practice GraphQL, Apollo, Apollo server, Mutations, Queries, gql schemas (in this Fullstack MERN stack project)
+- ✅ to create, consume, and deploy a fully funcitonal fullstack apollo GraphQL project
+
+
+- ✅ MongoDB integration
+- ✅ Basic project/task management (✅ Backend)
+- ✅ Read, Create and Delete Users using Apollo and GraphQL (queries and mutations) (✅ Frontend ; ✅ Backend)
+- ✅ Fully Functional Vite (TypeScript) Frontend
+- ✅ Fully Functional Node Express Apollo JS server (TypeScript) Backend
+- ✅ Deployment: live-demo: https://collablite.onrender.com/
+
+
+## 🏗️ Architecture
+
+### Frontend
+- **React** - Modern React with hooks and concurrent features
+- **Apollo Client** - GraphQL client with real-time subscriptions
+- **Vite** - Lightning fast build tool and dev server
+- **TypeScript** - Full type safety across the application
+
+### Backend
+- **Apollo Server** - Production-ready GraphQL server
+- **Node.js 20+** - Latest LTS version with modern features
+- **MongoDB Atlas** - Fully-managed cloud database
+- **Mongoose ODM** - Elegant MongoDB object modeling
+
+### Real-Time Infrastructure
+- **GraphQL Subscriptions** - WebSocket-based real-time updates
+- **Optimistic UI** - Instant feedback while waiting for server response
+- **DataLoader** - Efficient batching and caching to prevent N+1 problems
+
+
+2026 Rami Al-Saadi
+
+
+# CollabLite: Real-Time Collaboration Platform
+
 
 A modern, real-time collaboration platform built with a cutting-edge tech stack and production-ready architecture. CollabLite enables teams to collaborate seamlessly with live document updates, task management, and presence indicators.
 
@@ -18,30 +65,12 @@ A modern, real-time collaboration platform built with a cutting-edge tech stack 
 - **Team Projects** - Organize work into collaborative projects
 - **User Management** - Secure authentication and user profiles
 
-### ⚡ Real-Time Features
+### ⚡ Real-Time Features (Next Phase)
 - 🔥 **Live Document Updates** - See changes as they happen
 - 👥 **"Alex is editing..."** - Real-time presence indicators
 - 💬 **Instant Notifications** - Get notified about important updates
 - 📊 **Collaborative Editing** - Multiple users can edit simultaneously
 
-## 🏗️ Architecture
-
-### Frontend
-- **React 18** - Modern React with hooks and concurrent features
-- **Apollo Client 3** - GraphQL client with real-time subscriptions
-- **Vite** - Lightning fast build tool and dev server
-- **TypeScript** - Full type safety across the application
-
-### Backend
-- **Apollo Server 4** - Production-ready GraphQL server
-- **Node.js 20+** - Latest LTS version with modern features
-- **MongoDB Atlas** - Fully-managed cloud database
-- **Mongoose ODM** - Elegant MongoDB object modeling
-
-### Real-Time Infrastructure
-- **GraphQL Subscriptions** - WebSocket-based real-time updates
-- **Optimistic UI** - Instant feedback while waiting for server response
-- **DataLoader** - Efficient batching and caching to prevent N+1 problems
 
 ## 📁 Project Structure
 
@@ -198,7 +227,7 @@ subscription {
 - **Code Splitting** - Efficient bundle loading
 - **Type Safety** - End-to-end TypeScript integration
 
-### Real-Time Architecture
+### Real-Time Architecture (Next Phase)
 - **WebSocket Connections** - Efficient real-time communication
 - **Subscription Management** - Clean subscription lifecycle
 - **Connection Pooling** - Efficient resource utilization
@@ -307,12 +336,12 @@ cd apps/web && pnpm build
 ## 🎯 Roadmap
 
 ### Phase 1 (Current)
-- ✅ Basic project/task management
-- ✅ Real-time updates with subscriptions
-- ✅ User authentication
-- ✅ MongoDB integration
+- Basic project/task management
+- Real-time updates with subscriptions
+- User authentication
+- MongoDB integration
 
-### Phase 2 (Next)
+### Phase 2 (Future)
 - File uploads and document sharing
 - Advanced permission system
 - Real-time chat within projects
