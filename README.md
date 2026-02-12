@@ -14,7 +14,7 @@
 - ✅ To practice my TypeScript knowledge
 - ✅ To get to know and practice GraphQL, Apollo, Apollo server, Mutations, Queries, gql schemas (in this Fullstack MERN stack project)
 #### Overview
-- ✅ MongoDB integration
+- ✅ MongoDB (Atlas) integration
 - ✅ Basic project/task management (✅ Backend)
 - ✅ Read, Create and Delete Users using Apollo and GraphQL (queries and mutations) (✅ Frontend ; ✅ Backend)
 - ✅ Fully Functional Vite (TypeScript) Frontend
