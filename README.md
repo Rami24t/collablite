@@ -10,11 +10,10 @@
 
 ### My main purpose of this showcase project
 
+- ✅ to create, consume, and deploy a fully funcitonal fullstack apollo GraphQL project
 - ✅ To practice my TypeScript knowledge
 - ✅ To get to know and practice GraphQL, Apollo, Apollo server, Mutations, Queries, gql schemas (in this Fullstack MERN stack project)
-- ✅ to create, consume, and deploy a fully funcitonal fullstack apollo GraphQL project
-
-
+### Overview
 - ✅ MongoDB integration
 - ✅ Basic project/task management (✅ Backend)
 - ✅ Read, Create and Delete Users using Apollo and GraphQL (queries and mutations) (✅ Frontend ; ✅ Backend)
